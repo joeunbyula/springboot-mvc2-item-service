@@ -1,4 +1,4 @@
-package hello.itemservice.domain.item;
+package hello.itemservice.domain.formItem;
 
 
 import lombok.AllArgsConstructor;

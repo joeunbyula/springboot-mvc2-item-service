@@ -1,4 +1,4 @@
-package hello.itemservice.domain.messageItem;
+package hello.itemservice.domain.formItem;
 
 import org.springframework.stereotype.Repository;
 
@@ -8,30 +8,34 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
-public class MessageItemRepository {
+public class FormItemRepository {
 
-    private static final Map<Long, MessageItem> store = new HashMap<>(); //static
+    private static final Map<Long, FormItem> store = new HashMap<>(); //static
     private static long sequence = 0L; //static
 
-    public MessageItem save(MessageItem item) {
+    public FormItem save(FormItem item) {
         item.setId(++sequence);
         store.put(item.getId(), item);
         return item;
     }
 
-    public MessageItem findById(Long id) {
+    public FormItem findById(Long id) {
         return store.get(id);
     }
 
-    public List<MessageItem> findAll() {
+    public List<FormItem> findAll() {
         return new ArrayList<>(store.values());
     }
 
-    public void update(Long itemId, MessageItem updateParam) {
-        MessageItem findItem = findById(itemId);
+    public void update(Long itemId, FormItem updateParam) {
+        FormItem findItem = findById(itemId);
         findItem.setItemName(updateParam.getItemName());
         findItem.setPrice(updateParam.getPrice());
         findItem.setQuantity(updateParam.getQuantity());
+        findItem.setOpen(updateParam.getOpen());
+        findItem.setRegions(updateParam.getRegions());
+        findItem.setItemType(updateParam.getItemType());
+        findItem.setDeliveryCode(updateParam.getDeliveryCode());
     }
 
     public void clearStore() {

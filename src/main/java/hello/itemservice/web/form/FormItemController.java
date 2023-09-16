@@ -1,9 +1,9 @@
 package hello.itemservice.web.form;
 
-import hello.itemservice.domain.item.DeliveryCode;
-import hello.itemservice.domain.item.Item;
-import hello.itemservice.domain.item.ItemRepository;
-import hello.itemservice.domain.item.ItemType;
+import hello.itemservice.domain.formItem.DeliveryCode;
+import hello.itemservice.domain.formItem.FormItem;
+import hello.itemservice.domain.formItem.FormItemRepository;
+import hello.itemservice.domain.formItem.ItemType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -22,7 +22,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class FormItemController {
 
-    private final ItemRepository itemRepository;
+    private final FormItemRepository itemRepository;
 
     @ModelAttribute("regions")
     public Map<String, String> regions() {
@@ -49,30 +49,30 @@ public class FormItemController {
 
     @GetMapping
     public String items(Model model) {
-        List<Item> items = itemRepository.findAll();
+        List<FormItem> items = itemRepository.findAll();
         model.addAttribute("items", items);
         return "form/items";
     }
 
     @GetMapping("/{itemId}")
     public String item(@PathVariable long itemId, Model model) {
-        Item item = itemRepository.findById(itemId);
+        FormItem item = itemRepository.findById(itemId);
         model.addAttribute("item", item);
         return "form/item";
     }
 
     @GetMapping("/add")
     public String addForm(Model model) {
-        model.addAttribute("item", new Item());
+        model.addAttribute("item", new FormItem());
         return "form/addForm";
 
     }
 
     @PostMapping("/add")
-    public String addItem(@ModelAttribute Item item, RedirectAttributes redirectAttributes) {
+    public String addItem(@ModelAttribute FormItem item, RedirectAttributes redirectAttributes) {
         log.info("item.open = {}", item.getOpen());
         log.info("item.getRegions()={}",item.getRegions());
-        Item savedItem = itemRepository.save(item);
+        FormItem savedItem = itemRepository.save(item);
         redirectAttributes.addAttribute("itemId", savedItem.getId());
         redirectAttributes.addAttribute("status", true);
         return "redirect:/form/items/{itemId}";
@@ -80,13 +80,13 @@ public class FormItemController {
 
     @GetMapping("/{itemId}/edit")
     public String editForm(@PathVariable Long itemId, Model model) {
-        Item item = itemRepository.findById(itemId);
+        FormItem item = itemRepository.findById(itemId);
         model.addAttribute("item", item);
         return "form/editForm";
     }
 
     @PostMapping("/{itemId}/edit")
-    public String edit(@PathVariable Long itemId, @ModelAttribute Item item) {
+    public String edit(@PathVariable Long itemId, @ModelAttribute FormItem item) {
         itemRepository.update(itemId, item);
         return "redirect:/form/items/{itemId}";
     }

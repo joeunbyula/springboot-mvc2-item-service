@@ -1,4 +1,4 @@
-package hello.itemservice.domain.item;
+package hello.itemservice.domain.formItem;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -9,7 +9,7 @@ import static org.assertj.core.api.Assertions.*;
 
 class ItemRepositoryTest {
 
-    ItemRepository itemRepository = new ItemRepository();
+    FormItemRepository itemRepository = new FormItemRepository();
 
     @AfterEach
     void afterEach() {
@@ -19,27 +19,27 @@ class ItemRepositoryTest {
     @Test
     void save() {
         //given
-        Item item = new Item("itemA", 10000, 10);
+        FormItem item = new FormItem("itemA", 10000, 10);
 
         //when
-        Item savedItem = itemRepository.save(item);
+        FormItem savedItem = itemRepository.save(item);
 
         //then
-        Item findItem = itemRepository.findById(item.getId());
+        FormItem findItem = itemRepository.findById(item.getId());
         assertThat(findItem).isEqualTo(savedItem);
     }
 
     @Test
     void findAll() {
         //given
-        Item item1 = new Item("item1", 10000, 10);
-        Item item2 = new Item("item2", 20000, 20);
+        FormItem item1 = new FormItem("item1", 10000, 10);
+        FormItem item2 = new FormItem("item2", 20000, 20);
 
         itemRepository.save(item1);
         itemRepository.save(item2);
 
         //when
-        List<Item> result = itemRepository.findAll();
+        List<FormItem> result = itemRepository.findAll();
 
         //then
         assertThat(result.size()).isEqualTo(2);
@@ -49,16 +49,16 @@ class ItemRepositoryTest {
     @Test
     void updateItem() {
         //given
-        Item item = new Item("item1", 10000, 10);
+        FormItem item = new FormItem("item1", 10000, 10);
 
-        Item savedItem = itemRepository.save(item);
+        FormItem savedItem = itemRepository.save(item);
         Long itemId = savedItem.getId();
 
         //when
-        Item updateParam = new Item("item2", 20000, 30);
+        FormItem updateParam = new FormItem("item2", 20000, 30);
         itemRepository.update(itemId, updateParam);
 
-        Item findItem = itemRepository.findById(itemId);
+        FormItem findItem = itemRepository.findById(itemId);
 
         //then
         assertThat(findItem.getItemName()).isEqualTo(updateParam.getItemName());
